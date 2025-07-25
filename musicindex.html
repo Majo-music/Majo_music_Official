@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Majo_music | Oficial</title>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_DOMINIO.firebaseapp.com",
+      databaseURL: "https://TU_DOMINIO.firebaseio.com",
+      projectId: "TU_ID_PROYECTO",
+      storageBucket: "TU_DOMINIO.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Times New Roman', serif;
+      background: #000;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #111;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    header nav {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    header nav button {
+      background: transparent;
+      border: 2px solid gold;
+      color: gold;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+    header nav button:hover {
+      background: gold;
+      color: black;
+    }
+    .campana {
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: gold;
+    }
+    #inicio {
+      padding: 4rem 1rem 2rem;
+      text-align: center;
+    }
+    #inicio h1 {
+      font-size: 3rem;
+      color: gold;
+      margin-bottom: 1rem;
+    }
+    #musica h1 {
+      text-align: center;
+      margin: 1rem 0;
+      color: gold;
+    }
+    .song {
+      border: 1px solid #333;
+      margin: 1rem auto;
+      max-width: 600px;
+      padding: 1rem;
+      border-radius: 12px;
+      background: #111;
+    }
+    .song strong {
+      display: block;
+      margin-bottom: .5rem;
+      font-size: 1.2rem;
+      color: gold;
+    }
+    audio {
+      width: 100%;
+    }
+    button.like-btn {
+      margin-top: .5rem;
+      padding: .3rem .8rem;
+      cursor: pointer;
+      background: gold;
+      color: black;
+      border: none;
+      border-radius: 6px;
+    }
+    input.comment-input {
+      width: 100%;
+      padding: .4rem;
+      margin-top: .5rem;
+      border-radius: 6px;
+      border: none;
+    }
+    ul {
+      margin-top: .5rem;
+      padding-left: 1rem;
+      text-align: left;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: .9rem;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span style="font-weight: bold; font-size: 1.5rem;">Majo_music</span>
+  <nav>
+    <button onclick="scrollToSection('inicio')">Inicio</button>
+    <button onclick="scrollToSection('musica')">Música</button>
+  </nav>
+  <span class="campana" onclick="toggleSuscripcion()">🔔</span>
+</header>
+
+<section id="inicio">
+  <h1>Bienvenido a Majo_music</h1>
+  <p>Tu sitio oficial para disfrutar la mejor música.</p>
+</section>
+
+<section id="musica">
+  <h1>Mis canciones</h1>
+  <!-- canciones -->
+</section>
+
+  <div class="song">
+    <strong>Amor Imperfecto</strong>
+    <audio controls src="assets/music/Amor Imperfecto.mp3"></audio><br/>
+    <button class="like-btn" onclick="likeSong('amor-imperfecto')">❤️ Me gusta (<span id="likes-amor-imperfecto">0</span>)</button><br/>
+    <input class="comment-input" type="text" id="comment-amor-imperfecto" placeholder="Dejá tu comentario" />
+    <button onclick="addComment('amor-imperfecto')">Comentar</button>
+    <ul id="comments-amor-imperfecto"></ul>
+  </div>
+
+  <div class="song">
+    <strong>Insomnio</strong>
+    <audio controls src="assets/music/Insomnio.mp3"></audio><br/>
+    <button class="like-btn" onclick="likeSong('insomnio')">❤️ Me gusta (<span id="likes-insomnio">0</span>)</button><br/>
+    <input class="comment-input" type="text" id="comment-insomnio" placeholder="Dejá tu comentario" />
+    <button onclick="addComment('insomnio')">Comentar</button>
+    <ul id="comments-insomnio"></ul>
+  </div>
+
+  <div class="song">
+    <strong>Ocaso</strong>
+    <audio controls src="assets/music/Ocaso.mp3"></audio><br/>
+    <button class="like-btn" onclick="likeSong('ocaso')">❤️ Me gusta (<span id="likes-ocaso">0</span>)</button><br/>
+    <input class="comment-input" type="text" id="comment-ocaso" placeholder="Dejá tu comentario" />
+    <button onclick="addComment('ocaso')">Comentar</button>
+    <ul id="comments-ocaso"></ul>
+  </div>
+
+  <div class="song">
+    <strong>Odiame</strong>
+    <audio controls src="assets/music/Odiame.mp3"></audio><br/>
+    <button class="like-btn" onclick="likeSong('odiame')">❤️ Me gusta (<span id="likes-odiame">0</span>)</button><br/>
+    <input class="comment-input" type="text" id="comment-odiame" placeholder="Dejá tu comentario" />
+    <button onclick="addComment('odiame')">Comentar</button>
+    <ul id="comments-odiame"></ul>
+  </div>
+
+  <div class="song">
+    <strong>El precio de no Escuchar</strong>
+    <audio controls src="assets/music/El precio de no Escuchar.mp3"></audio><br/>
+    <button class="like-btn" onclick="likeSong('el-precio')">❤️ Me gusta (<span id="likes-el-precio">0</span>)</button><br/>
+    <input class="comment-input" type="text" id="comment-el-precio" placeholder="Dejá tu comentario" />
+    <button onclick="addComment('el-precio')">Comentar</button>
+    <ul id="comments-el-precio"></ul>
+  </div>
+</section>
+
+<footer>
+  © 2025 Majo_music. Todos los derechos reservados.
+</footer>
+
+<script>
+  // Scroll suave a sección
+  function scrollToSection(id) {
+    const elem = document.getElementById(id);
+    if (elem) {
+      elem.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const audios = document.querySelectorAll('audio');
+    audios.forEach(audio => {
+      audio.addEventListener('play', () => {
+        audios.forEach(a => {
+          if (a !== audio && !a.paused) {
+            a.pause();
+          }
+        });
+      });
+    });
+  });
+
+  function likeSong(id) {
+    const ref = db.ref('likes/' + id);
+    ref.transaction(current => (current || 0) + 1);
+  }
+
+  function addComment(id) {
+    const input = document.getElementById('comment-' + id);
+    const text = input.value.trim();
+    if (text !== "") {
+      db.ref('comments/' + id).push({ text });
+      input.value = "";
+    }
+  }
+
+  function setupSong(id) {
+    const likeEl = document.getElementById('likes-' + id);
+    const commentList = document.getElementById('comments-' + id);
+
+    db.ref('likes/' + id).on('value', snap => {
+      likeEl.textContent = snap.val() || 0;
+    });
+
+    db.ref('comments/' + id).on('child_added', snap => {
+      const li = document.createElement('li');
+      li.textContent = snap.val().text;
+      commentList.appendChild(li);
+    });
+  }
+
+  ['amor-imperfecto', 'insomnio', 'ocaso', 'odiame', 'el-precio'].forEach(setupSong);
+
+  function toggleSuscripcion() {
+    if (localStorage.getItem("subscribed") === "true") {
+      alert("Ya estás suscripto 🎧");
+    } else {
+      alert("¡Gracias por suscribirte! Te avisaremos cuando haya nuevos lanzamientos 🔔");
+      localStorage.setItem("subscribed", "true");
+    }
+  }
+</script>
+
+<div id="loader">
+  <div class="spinner"></div>
+  <h2>Cargando música...</h2>
+</div>
+
+<style>
+  body.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+  }
+  #loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #000;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.6s ease-out;
+  }
+  #loader h2 {
+    color: gold;
+    font-size: 2rem;
+    margin-top: 20px;
+  }
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #444;
+    border-top: 5px solid gold;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
+
+<script>
+  window.addEventListener("load", function () {
+    const loader = document.getElementById("loader");
+    loader.style.opacity = 0;
+    setTimeout(() => loader.style.display = "none", 600);
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.body.classList.remove("fade-out");
+    const links = document.querySelectorAll("a[href], button[onclick]");
+    links.forEach(link => {
+      const isAnchor = link.tagName === "A" && link.getAttribute("href");
+      const isButton = link.tagName === "BUTTON" && link.getAttribute("onclick");
+
+      if (isAnchor && !link.getAttribute("href").startsWith("#") && !link.href.startsWith("mailto") && !link.href.startsWith("http")) {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.body.classList.add("fade-out");
+          setTimeout(() => {
+            window.location.href = link.getAttribute("href");
+          }, 300);
+        });
+      }
+    });
+  });
+
+  // Aseguramos que el body tenga fade-out al inicio
+  document.body.classList.add("fade-out");
+</script>
+
